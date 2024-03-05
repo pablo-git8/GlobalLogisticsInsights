@@ -1,0 +1,51 @@
+
+h1 {
+    text-align: center;
+}
+            
+.block-container {
+    padding-top: 0.1rem;
+}
+
+.main .block-container {
+    padding: 0.8rem;
+}
+
+.subheader-font {
+    font-size: 20px;
+}
+    
+.subheader-premium {
+    color: #D4FFB2;
+    font-size: 30px;
+    font-weight: bold;
+}
+            
+.quote {
+    font-size: 14px; 
+    padding-left: 10px; 
+    border-left: 2px solid #ccc;
+    margin-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+            
+.quote-test {
+    font-size: 18px;
+    color: #D4FFB2;
+    font-weight: bold;
+}
+            
+.caption-code {
+    font-size: 14px;
+    color: #D4FFB2;
+    font-family: monospace;
+    border-radius: 5px;
+    padding: 1px 2px;
+}
+
+.centered-subheader {
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+}
