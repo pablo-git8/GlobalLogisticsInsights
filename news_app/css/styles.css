@@ -14,10 +14,21 @@ h1 {
 .subheader-font {
     font-size: 20px;
 }
-    
+
+.subheader-cat {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.notification {
+    font-size: 22px;
+    font-weight: bold;
+    color:#FFFFCC;
+}
+
 .subheader-premium {
     color: #D4FFB2;
-    font-size: 30px;
+    font-size: 37px;
     font-weight: bold;
 }
             
@@ -37,7 +48,7 @@ h1 {
 }
             
 .caption-code {
-    font-size: 14px;
+    font-size: 17px;
     color: #D4FFB2;
     font-family: monospace;
     border-radius: 5px;
@@ -46,6 +57,11 @@ h1 {
 
 .centered-subheader {
     text-align: center;
-    font-size: 30px;
+    font-size: 37px;
     font-weight: bold;
+    padding-top: 55px;
+}
+
+.st-emotion-cache-16txtl3 {
+    padding: 2rem 1.5rem;
 }
