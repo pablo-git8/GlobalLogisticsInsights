@@ -1,5 +1,4 @@
 # Imports
-import os
 import json
 import time
 import openai
@@ -173,6 +172,7 @@ def main():
 
         # Combine the text of all paragraphs to form the body text
         article_text = " ".join(paragraph.text for paragraph in article_paragraphs)
+        #article_text = article_text[:150]
 
         # AI-powered Summary
         if premium:
