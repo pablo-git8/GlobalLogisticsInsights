@@ -1,0 +1,10 @@
+# Define the directory containing the Python scripts
+SCRIPTS_DIR := scripts
+
+# Define a target to run all Python scripts
+run-scripts:
+    @echo "Running Python scripts..."
+    @for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
+        echo "Executing $$script"; \
+        python $$script; \
+    done

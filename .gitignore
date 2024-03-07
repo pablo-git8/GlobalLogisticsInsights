@@ -3,4 +3,5 @@
 *.db
 .DS_Store
 .hypothesis
+__pycache__
 /models
