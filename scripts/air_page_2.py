@@ -98,13 +98,14 @@ def main():
                 summary = "Get Premium for enabling AI-powered summary!"
 
             classification = helper_obj.classify_article(article_text, keywords)
-
+            ml_classification = helper_obj.ml_classification(article_text)
             helper_obj.insert_article_data(
                 cursor,
                 article_title,
                 article_text,
                 summary,
                 classification,
+                ml_classification,
                 location,
                 items_url,
             )

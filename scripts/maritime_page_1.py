@@ -116,6 +116,8 @@ def main():
 
             # Article classification
             classification = helper_obj.classify_article(article_text, keywords)
+            # Machine learning classification
+            ml_classification = helper_obj.ml_classification(article_text)
 
             # Insert the article data into the table
             helper_obj.insert_article_data(
@@ -124,6 +126,7 @@ def main():
                 article_text,
                 summary,
                 classification,
+                ml_classification,
                 location,
                 article,
             )
