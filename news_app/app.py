@@ -42,7 +42,6 @@ db_path = '../data/news/maritime_news.db'
 
 # Define table naming by date of execution
 current_date = datetime.now().strftime("%m%d%Y")
-current_date = "03062024"
 
 # Function to get news from the database based on the selected category
 def get_news_data(option, classification, num_news):
@@ -65,7 +64,7 @@ def get_news_data(option, classification, num_news):
     # Then, fetch the limited number of news articles
     cur.execute(f"""
         SELECT title, text, summary, link
-        FROM {table_name }
+        FROM {table_name}
         WHERE classification = ? 
         LIMIT ?
     """, (classification, limit))
@@ -143,7 +142,7 @@ st.markdown('<p class="centered-subheader">AI Recommended News</p>', unsafe_allo
 # Insert custom HTML to create a horizontal line separator
 st.markdown('<hr style="border:1px solid red">', unsafe_allow_html=True)
 
-# Container of news 1
+# Container of Risk news
 with st.container():
     # Risks
     st.markdown('<p class="subheader-cat">Risks</p>', unsafe_allow_html=True)
@@ -159,7 +158,7 @@ with st.container():
         # Summary of the news title
         st.markdown('<div class="caption-code">🤖 Get Premium for AI-powered summary!</div>', unsafe_allow_html=True)
 
-# Container of news 2
+# Container of Opportunities News
 with st.container():
     # Oportunities
     st.markdown('<p class="subheader-cat">Oportunities</p>', unsafe_allow_html=True)
@@ -171,7 +170,7 @@ with st.container():
     with col2:
         st.markdown('<div class="caption-code">🤖 Get Premium for AI-powered summary!</div>', unsafe_allow_html=True)
 
-# Container of news 3
+# Container of General news
 with st.container():
     # General
     st.markdown('<p class="subheader-cat">General</p>', unsafe_allow_html=True)
