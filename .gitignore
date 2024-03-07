@@ -4,4 +4,6 @@
 .DS_Store
 .hypothesis
 __pycache__
-/models
+
+models/bert_risk/*
+!models/bert_risk/manideepvmuela-sch-structure.png
