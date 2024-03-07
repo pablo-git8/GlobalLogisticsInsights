@@ -4,8 +4,6 @@
 	lint \
 	format \
 
-
-
 .DEFAULT_GOAL:=help
 
 SHELL=bash

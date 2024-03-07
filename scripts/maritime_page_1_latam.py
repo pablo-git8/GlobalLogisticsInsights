@@ -18,7 +18,7 @@ load_dotenv()
 URL = "https://www.maritimelogisticsprofessional.com"
 
 # Path to the SQLite database
-db_path = "data/news/maritime_air_newsls.db"
+db_path = "data/news/maritime_air_news.db"
 # Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"

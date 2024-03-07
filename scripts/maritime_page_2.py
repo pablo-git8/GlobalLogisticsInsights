@@ -70,7 +70,7 @@ def main():
     ]
     # pagination = browser.find_element(By.XPATH, "//li[contains(@class, 'pager__item')]").find_element(By.TAG_NAME, "a").get_attribute('href')
     for url in article_url:
-        # url = article_url[1]
+        # url = article_url[2]
         time.sleep(5)
         browser.get(url)
         article_title = browser.find_element(
@@ -105,7 +105,7 @@ def main():
             classification,
             ml_classification,
             location,
-            article_url,
+            url,
             date_obj,
         )
         conn.commit()
