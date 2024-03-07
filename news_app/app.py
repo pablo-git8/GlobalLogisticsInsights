@@ -21,21 +21,6 @@ st.markdown(f'<style>{css_to_include}</style>', unsafe_allow_html=True)
 
 ######## APP INITIALIZATION ########
 
-# Background image
-png_file = ''
-with open(f"{png_file}", "rb") as image_file:
-    encoded = base64.b64encode(image_file.read()).decode()
-st.markdown(
-    f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{encoded}");
-            background-size: cover;
-            background-attachment: fixed;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
-
 # App title
 st.title('Maritime & Air News Gatherer')
 
@@ -44,7 +29,8 @@ with st.container():
     col1, col2, col3 = st.columns([2, 4, 2])
     # Display an image with a specified width, maintaining aspect ratio
     with col2:
-        st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/mar_air_transport.png', width=300)
+        #st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/mar_air_transport.png', width=300)
+        st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/background.png', width=320)
 
 # Initialize session state variable if it doesn't exist
 if 'show_text' not in st.session_state:
