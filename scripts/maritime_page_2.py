@@ -18,7 +18,7 @@ load_dotenv()
 URL = "https://www.seatrade-maritime.com/"
 
 # Define the path to the SQLite database
-db_path = "../data/news/maritime_news.db"
+db_path = "data/news/maritime_air_news.db"
 # Define table naming by date of execution
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
@@ -26,7 +26,7 @@ mar_news_table_name = f"mar_news_{current_date}"
 
 helper_obj = Helper(db_path, mar_news_table_name)
 # Load keywords from JSON file for classification
-with open("../json/keywords.json", "r") as file:
+with open("json/keywords.json", "r") as file:
     keywords = json.load(file)
 
 
@@ -106,6 +106,7 @@ def main():
             ml_classification,
             location,
             article_url,
+            date_obj
         )
         conn.commit()
     conn.close()

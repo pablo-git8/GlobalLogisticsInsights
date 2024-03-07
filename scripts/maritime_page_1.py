@@ -11,7 +11,6 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from src import Helper
-from ml_classification import ml_classification
 
 
 # Load the variables from .env into the environment
@@ -21,7 +20,7 @@ load_dotenv()
 URL = "https://www.maritimelogisticsprofessional.com"
 
 # Path to the SQLite database
-db_path = '../data/news/maritime_air_news.db'
+db_path = "data/news/maritime_air_news.db"
 # Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
@@ -29,7 +28,7 @@ mar_news_table_name = f"mar_news_{current_date}"
 helper_obj = Helper(db_path, mar_news_table_name)
 
 # Load keywords from JSON file for classification
-with open("../json/keywords.json", "r") as file:
+with open("json/keywords.json", "r") as file:
     keywords = json.load(file)
 
 
@@ -85,7 +84,7 @@ def main():
     # Iterate through global news
     for article in article_urls:
         """ """
-        article = article_urls[0]
+        # article = article_urls[0]
         try:
             # Get article
             browser.get(article)
@@ -107,7 +106,10 @@ def main():
 
             # Combine the text of all paragraphs to form the body text
             article_text = " ".join(paragraph.text for paragraph in article_paragraphs)
-
+            article_date = browser.find_element(
+                By.CSS_SELECTOR, "span[class='date']"
+            ).text
+            date_object = datetime.strptime(article_date, "%B %d, %Y")
             # AI-powered Summary
             if premium:
                 helper_obj.summarize_text(article_text)
@@ -129,6 +131,7 @@ def main():
                 ml_classification,
                 location,
                 article,
+                date_object,
             )
             conn.commit()
 

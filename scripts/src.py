@@ -27,7 +27,8 @@ class Helper:
                             classification TEXT,
                             ml_classification TEXT,
                             location TEXT,
-                            link TEXT
+                            link TEXT,
+                            date DATE
                         );"""
         )
 
@@ -69,6 +70,7 @@ class Helper:
         ml_classification,
         location,
         link,
+        date
     ):
         """ """
         # Check if an article with the same title already exists
@@ -79,9 +81,18 @@ class Helper:
 
         if existing_article is None:
             cursor.execute(
-                f"""INSERT INTO {self.news_table_name} (title, text, summary, classification, ml_classification, location, link)
-                            VALUES (?, ?, ?, ?, ?, ?, ?);""",
-                (article_title, article_text, summary, classification, ml_classification, location, link),
+                f"""INSERT INTO {self.news_table_name} (title, text, summary, classification, ml_classification, location, link, date)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?);""",
+                (
+                    article_title,
+                    article_text,
+                    summary,
+                    classification,
+                    ml_classification,
+                    location,
+                    link,
+                    date
+                ),
             )
 
     def classify_article(self, article_text, keywords):
@@ -100,28 +111,31 @@ class Helper:
                 max_category = category
 
         return max_category
-    
 
     # Function to classify text with BERT model
     def ml_classification(self, text):
         # Load the models and tokenizer
-        path_to_bert_model = '../models/bert_risk/'
-        cls_model = AutoModelForSequenceClassification.from_pretrained(path_to_bert_model)
+        path_to_bert_model = "models/bert_risk/"
+        cls_model = AutoModelForSequenceClassification.from_pretrained(
+            path_to_bert_model
+        )
         tokenizer_cls = AutoTokenizer.from_pretrained(path_to_bert_model)
 
         label_column_values = ["risks", "opportunities", "neither"]
         label_encoder = LabelEncoder()
         label_encoder.fit(label_column_values)
         # Save the fitted LabelEncoder for future use
-        joblib.dump(label_encoder, f'{path_to_bert_model}/encoder_labels.pkl')
+        joblib.dump(label_encoder, f"{path_to_bert_model}/encoder_labels.pkl")
 
         # Set the device (GPU or CPU)
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         # Tokenize the input text
-        inputs_cls = tokenizer_cls(text, return_tensors="pt", max_length=512, truncation=True)
+        inputs_cls = tokenizer_cls(
+            text, return_tensors="pt", max_length=512, truncation=True
+        )
         inputs_cls = {key: value.to(device) for key, value in inputs_cls.items()}
-            
+
         # Move cls_model to the specified device
         cls_model = cls_model.to(device)
 
@@ -129,7 +143,7 @@ class Helper:
         outputs_cls = cls_model(**inputs_cls)
         logits_cls = outputs_cls.logits
         predicted_class = torch.argmax(logits_cls, dim=1).item()
-            
+
         # Decode the predicted class index into the label string
         classification = label_encoder.inverse_transform([predicted_class])[0]
 

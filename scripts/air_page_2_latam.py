@@ -19,14 +19,14 @@ load_dotenv()
 URL = "https://www.aircargonews.net/category/region/americas/"
 
 # Define the path to the SQLite database
-db_path = "../data/news/air_news.db"
+db_path = "data/news/maritime_air_news.db"
 # Define table naming by date of execution
 current_date = datetime.now().strftime("%m%d%Y")
 air_news_table_name = f"air_news_{current_date}"
 helper_obj = Helper(db_path, air_news_table_name)
 
 # Load keywords from JSON file for classification
-with open("../json/keywords.json", "r") as file:
+with open("json/keywords.json", "r") as file:
     keywords = json.load(file)
 
 
@@ -107,6 +107,7 @@ def main():
                 ml_classification,
                 location,
                 items_url,
+                date_obj
             )
             conn.commit()
     conn.close()
