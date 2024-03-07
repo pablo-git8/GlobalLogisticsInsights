@@ -1,6 +1,5 @@
 # Imports
 import json
-import time
 import openai
 import sqlite3
 
@@ -21,9 +20,9 @@ load_dotenv()
 # Maritime news website 1
 URL = "https://www.maritimelogisticsprofessional.com"
 
-# Define the path to the SQLite database
+# Path to the SQLite database
 db_path = '../data/news/maritime_news.db'
-# Define table naming by date of execution
+# Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
 
@@ -32,7 +31,7 @@ with open('../json/keywords.json', 'r') as file:
     keywords = json.load(file)
 
 
-# Establishes a connection to the SQLite database
+# Connection to the SQLite database
 def connect_to_db(db_path):
     """
     """
@@ -61,7 +60,7 @@ def initialize_tables():
     conn = connect_to_db(db_path)
     cursor = conn.cursor()
 
-    # Create tables for today's date with news
+    # Create tables for today's date with news (maritime 1)
     create_daily_news_table(cursor, mar_news_table_name)
 
     # Commit the changes and close the connection
@@ -71,6 +70,7 @@ def initialize_tables():
 
 def summarize_text(text):
     """
+    Connect to OpenAI API to make a summary, translate and provide insights on impact on LATAM
     """
     response = openai.Completion.create(
         engine="text-davinci-003",
@@ -100,6 +100,7 @@ def insert_article_data(cursor, table_name, article_title, article_text, summary
 
 def classify_article(article_text, keywords):
     """
+    Article mapping with JSON file
     """
     max_count = 0
     max_category = "Unclassified or Neutral"
@@ -125,70 +126,133 @@ def main():
 
     # Create a browser session
     browser = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install())) 
-    browser.implicitly_wait(2)
     browser.get(URL)
 
-    # Click cookies button
+    # Define a wait variable with a timeout of 10 seconds
+    wait = WebDriverWait(browser, 10)
+
+    # Cookies button
     try:
-        # Wait for the button to be clickable
-        WebDriverWait(browser, 10).until(
+        # Wait for the button to be clickable and click it
+        cookie_button = wait.until(
             EC.element_to_be_clickable((By.XPATH, "//button[text()='Ok']"))
         )
-        # Click the button once it is clickable
-        browser.find_element(By.XPATH, "//button[text()='Ok']").click()
-    except (NoSuchElementException, TimeoutException):
+        cookie_button.click()
+
+    except TimeoutException:
         print("The cookie acceptance button was not found on the page.")
 
     # GLOBAL NEWS
     location = "Global"
 
-    # List of latest global news
-    latest_news = browser.find_elements(By.CLASS_NAME, "snippet-flex")
-    # Collect all URLs before navigating
-    article_urls = [element.get_attribute('href') for element in latest_news if '/news/' in element.get_attribute('href')]
+    # Get latest news urls
+    try:
+        wait.until(EC.presence_of_all_elements_located((By.CLASS_NAME, "snippet-flex")))
+        latest_news = browser.find_elements(By.CLASS_NAME, "snippet-flex")
+        article_urls = [element.get_attribute('href') for element in latest_news if '/news/' in element.get_attribute('href')]
+
+    except TimeoutException:
+        print("Latest news elements were not found on the page.")
+        article_urls = []
+
     # Premium version
     premium = False
 
-    # Establish a connection and create a cursor
+    # Connect to DDBB
     conn = connect_to_db(db_path)
     cursor = conn.cursor()
+    
+    print(f"\nGetting {location} news...")
 
     # Iterate through global news
     for article in article_urls:
         """
         """
-        # Get article
-        time.sleep(5)
-        browser.get(article)
+        try:
+            # Get article
+            browser.get(article)
 
-        # Find the title element and get the text
-        title_element = browser.find_element(By.CSS_SELECTOR, "h1[itemprop='name']")
-        article_title = title_element.text
-        print(article_title)
+            # Find the title element and get the text
+            title_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "h1[itemprop='name']")))
+            article_title = title_element.text
+            print(article_title)
 
-        # Find the article body element and get all the paragraph texts
-        article_body_element = browser.find_element(By.CSS_SELECTOR, "div[property='articleBody']")
-        article_paragraphs = article_body_element.find_elements(By.TAG_NAME, "p")
+            # Find the article body element and get all the paragraph texts
+            article_body_element = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "div[property='articleBody']")))
+            article_paragraphs = article_body_element.find_elements(By.TAG_NAME, "p")
 
-        # Combine the text of all paragraphs to form the body text
-        article_text = " ".join(paragraph.text for paragraph in article_paragraphs)
-        #article_text = article_text[:150]
+            # Combine the text of all paragraphs to form the body text
+            article_text = " ".join(paragraph.text for paragraph in article_paragraphs)
 
-        # AI-powered Summary
-        if premium:
-            summarize_text(article_text)
+            # AI-powered Summary
+            if premium:
+                summarize_text(article_text)
+            else:
+                summary = "Get Premium for enabling AI-powered summary!"
+            
+            # Article classification
+            classification = classify_article(article_text, keywords)
+
+            # Insert the article data into the table
+            insert_article_data(cursor, mar_news_table_name, article_title, article_text, summary, classification, location, article)
+            conn.commit()
+
+        except (NoSuchElementException, TimeoutException) as e:
+            print(f"An error occurred while processing the article: {article}. Error: {e}")
+
+
+    # LATAM NEWS
+    location = "LATAM"
+    print(f"\nGetting {location} news...")
+
+    # Go back to main page
+    browser.get(URL)
+
+    # Filter for LATAM
+    filter_news = '/south-america'
+    try:
+        # Category links to find LATAM
+        cat_links = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".cat-link")))
+
+        latam_link = None
+        for cat_link_div in cat_links:
+            a_element = cat_link_div.find_element(By.TAG_NAME, 'a')
+            href = a_element.get_attribute('href')
+            if href.endswith(filter_news):
+                latam_link = href
+                break  # Exit the loop once we find the LATAM link
+
+        # Check if the LATAM link was found before proceeding
+        if latam_link:
+            # Navigate to the LATAM link
+            browser.get(latam_link)
+            # Get snippets
+            snippets = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".snippet")))
+
+            # Process each snippet
+            for snippet in snippets:
+                try:
+                    news_link = snippet.get_attribute('href')
+                    news_title = snippet.find_element(By.TAG_NAME, 'h2').text
+                    news_text = snippet.find_element(By.TAG_NAME, 'p').text
+
+                    # Article classification
+                    classification = classify_article(news_text, keywords)
+
+                    # Insert the article data into the table
+                    insert_article_data(cursor, mar_news_table_name, news_title, news_text, summary, classification, location, news_link)
+                    print(news_title)
+                    conn.commit()
+
+                except NoSuchElementException:
+                    print("An element was not found while processing a snippet.")
         else:
-            # Summary not premium
-            summary = "Get Premium for enabling AI-powered summary!"
-        
-        # Article classification
-        classification = classify_article(article_text, keywords)
+            print("LATAM link was not found")
 
-        # Insert the article data into the table
-        insert_article_data(cursor, mar_news_table_name, article_title, article_text, summary, classification, location, article)
-        conn.commit() # Commit the changes
+    except TimeoutException:
+        print("Failed to load the necessary elements for LATAM news scraping.")
 
-    # Close connection
+    # Close connection and quit the browser
     conn.close()
     browser.quit()
 
