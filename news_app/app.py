@@ -3,6 +3,7 @@
 
 import sqlite3
 import base64
+import random
 import streamlit as st
 
 from datetime import datetime
@@ -91,6 +92,46 @@ def get_news_data(option, classification, num_news):
 
     return data
 
+def get_news_data_ml(option, ml_classification):
+    """
+    Fetches news data from the database based on BERT classification. 
+    If no data is found for the classification, a random news entry is returned.
+    """
+    conn = sqlite3.connect(db_path)  # Update with your SQLite DB path
+    cur = conn.cursor()
+
+    # Determine the table name based on the option
+    table_suffix = "air" if option == 1 else "mar"
+    table_name = f"{table_suffix}_news_{current_date}"
+
+    # Count the total news in the ml_classification
+    cur.execute(f"SELECT COUNT(*) FROM {table_name} WHERE ml_classification = ?", (ml_classification,))
+    count = cur.fetchone()[0]
+
+    if count > 0:
+        # If there is at least one row with the ml_classification, fetch one entry
+        cur.execute(f"""
+            SELECT title, text, summary, link
+            FROM {table_name}
+            WHERE ml_classification = ? 
+            ORDER BY RANDOM() 
+            LIMIT 1
+        """, (ml_classification,))
+    else:
+        # If no rows have the ml_classification, select a random row from the table
+        cur.execute(f"""
+            SELECT title, text, summary, link
+            FROM {table_name}
+            ORDER BY RANDOM() 
+            LIMIT 1
+        """)
+
+    # Get data
+    data = cur.fetchone()
+    conn.close()
+
+    return data
+
 
 ######## CHOOSE NEWS SECTION (SIDEBAR) ########
         
@@ -161,42 +202,48 @@ st.markdown('<hr style="border:1px solid red">', unsafe_allow_html=True)
 # Container of Risk news
 with st.container():
     # Risks
+    random_option = random.choice([1, 2])
+    news_title, news_content, summary, link = get_news_data_ml(random_option, ml_classification = 'risk')
     st.markdown('<p class="subheader-cat">Risks</p>', unsafe_allow_html=True)
     # Assign custom CSS class to the container
     col1, col2 = st.columns([7, 5])
     with col1:
         # Header for the news title
-        st.markdown('<p class="subheader-font">Tensions in the Red Sea</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="subheader-font"><a href="{link}" target="_blank">{news_title}</a></p>', unsafe_allow_html=True)
         # Use an expander for displaying the news content
         with st.expander("Read More"):
-            st.markdown('<div class="quote">Display regulation news...</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="quote">{news_content[:1300]}...</div>', unsafe_allow_html=True)
     with col2:
         # Summary of the news title
-        st.markdown('<div class="caption-code">🤖 Get Premium for AI-powered summary!</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="caption-code">🤖 {summary}</div>', unsafe_allow_html=True)
 
 # Container of Opportunities News
 with st.container():
     # Oportunities
+    random_option = random.choice([1, 2])
+    news_title, news_content, summary, link  = get_news_data_ml(random_option, ml_classification = 'opportunities')
     st.markdown('<p class="subheader-cat">Oportunities</p>', unsafe_allow_html=True)
     col1, col2 = st.columns([7, 5])
     with col1:
-        st.markdown('<p class="subheader-font">Tensions in the Red Sea</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="subheader-font"><a href="{link}" target="_blank">{news_title}</a></p>', unsafe_allow_html=True)
         with st.expander("Read More"):
-            st.markdown('<div class="quote">Display regulation news...</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="quote">{news_content[:1300]}...</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="caption-code">🤖 Get Premium for AI-powered summary!</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="caption-code">🤖 {summary}</div>', unsafe_allow_html=True)
 
 # Container of General news
 with st.container():
     # General
+    random_option = random.choice([1, 2])
+    news_title, news_content, summary, link  = get_news_data_ml(random_option, ml_classification = 'neither')
     st.markdown('<p class="subheader-cat">General</p>', unsafe_allow_html=True)
     col1, col2 = st.columns([7, 5])
     with col1:
-        st.markdown('<p class="subheader-font">Tensions in the Red Sea</p>', unsafe_allow_html=True)
+        st.markdown(f'<p class="subheader-font"><a href="{link}" target="_blank">{news_title}</a></p>', unsafe_allow_html=True)
         with st.expander("Read More"):
-            st.markdown('<div class="quote">Display regulation news...</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="quote">{news_content[:1300]}...</div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="caption-code">🤖 Get Premium for AI-powered summary!</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="caption-code">🤖 {summary}</div>', unsafe_allow_html=True)
 
 
 ######## PREMIUM EXAMPLE SECTION #########
