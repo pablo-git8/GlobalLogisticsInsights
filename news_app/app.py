@@ -30,7 +30,7 @@ with st.container():
     # Display an image with a specified width, maintaining aspect ratio
     with col2:
         #st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/mar_air_transport.png', width=300)
-        st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/background.png', width=320)
+        st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png', width=320)
 
 # Initialize session state variable if it doesn't exist
 if 'show_text' not in st.session_state:
