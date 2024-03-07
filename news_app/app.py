@@ -38,7 +38,7 @@ def hide_text():
     st.session_state.show_text = False
 
 # Define the path to the SQLite database
-db_path = '../data/news/maritime_news.db'
+db_path = '../data/news/maritime_air_news.db'
 
 # Define table naming by date of execution
 current_date = datetime.now().strftime("%m%d%Y")
