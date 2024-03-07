@@ -42,6 +42,7 @@ db_path = '../data/news/maritime_news.db'
 
 # Define table naming by date of execution
 current_date = datetime.now().strftime("%m%d%Y")
+current_date = "03062024"
 
 # Function to get news from the database based on the selected category
 def get_news_data(option, classification, num_news):
@@ -94,7 +95,7 @@ news_loc = st.sidebar.radio(
 # Drop-down menu for choosing news categories
 news_cat = st.sidebar.selectbox(
     'Category:',
-    ('General', 'Regulations', 'Issues', 'Global Trade', 'Port Operations',
+    ('Unclassified or Neutral', 'Regulations', 'Issues', 'Global Trade', 'Port Operations',
      'Shipping Market', 'Supply Chain', 'Customs', 'Regulations'))
 
 # Select number of news to display
