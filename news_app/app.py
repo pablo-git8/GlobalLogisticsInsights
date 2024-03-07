@@ -21,21 +21,6 @@ st.markdown(f'<style>{css_to_include}</style>', unsafe_allow_html=True)
 
 ######## APP INITIALIZATION ########
 
-# Background image
-png_file = ''
-with open(f"{png_file}", "rb") as image_file:
-    encoded = base64.b64encode(image_file.read()).decode()
-st.markdown(
-    f"""
-        <style>
-        .stApp {{
-            background-image: url("data:image/png;base64,{encoded}");
-            background-size: cover;
-            background-attachment: fixed;
-        }}
-        </style>
-    """, unsafe_allow_html=True)
-
 # App title
 st.title('Maritime & Air News Gatherer')
 
