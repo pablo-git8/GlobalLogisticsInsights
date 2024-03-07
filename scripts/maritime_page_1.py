@@ -12,6 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from ml_classification import ml_classification
 
 
 # Load the variables from .env into the environment
@@ -21,7 +22,7 @@ load_dotenv()
 URL = "https://www.maritimelogisticsprofessional.com"
 
 # Path to the SQLite database
-db_path = '../data/news/maritime_news.db'
+db_path = '../data/news/maritime_air_news.db'
 # Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
@@ -48,6 +49,7 @@ def create_daily_news_table(cursor, table_name):
                         text TEXT,
                         summary TEXT,
                         classification TEXT,
+                        ml_classification TEXT,
                         location TEXT,
                         link TEXT
                     );""")
@@ -86,7 +88,7 @@ Please summarize the key points of the article for a business audience in a conc
     return response.choices[0].text.strip()
 
 
-def insert_article_data(cursor, table_name, article_title, article_text, summary, classification, location, link):
+def insert_article_data(cursor, table_name, article_title, article_text, summary, classification, ml_classification, location, link):
     """
     """
     # Check if an article with the same title already exists
@@ -94,9 +96,10 @@ def insert_article_data(cursor, table_name, article_title, article_text, summary
     existing_article = cursor.fetchone()
 
     if existing_article == None:
-        cursor.execute(f"""INSERT INTO {table_name} (title, text, summary, classification, location, link)
-                        VALUES (?, ?, ?, ?, ?, ?);""",
-                    (article_title, article_text, summary, classification, location, link))
+        cursor.execute(f"""INSERT INTO {table_name} (title, text, summary, classification, ml_classification, location, link)
+                        VALUES (?, ?, ?, ?, ?, ?, ?);""",
+                    (article_title, article_text, summary, classification, ml_classification, location, link))
+
 
 def classify_article(article_text, keywords):
     """
@@ -192,9 +195,11 @@ def main():
             
             # Article classification
             classification = classify_article(article_text, keywords)
+            # Machine learning classification
+            ml_class = ml_classification(article_text)
 
             # Insert the article data into the table
-            insert_article_data(cursor, mar_news_table_name, article_title, article_text, summary, classification, location, article)
+            insert_article_data(cursor, mar_news_table_name, article_title, article_text, summary, classification, ml_class, location, article)
             conn.commit()
 
         except (NoSuchElementException, TimeoutException) as e:
@@ -238,9 +243,11 @@ def main():
 
                     # Article classification
                     classification = classify_article(news_text, keywords)
+                    # Machine learning classification
+                    ml_class = ml_classification(article_text)
 
                     # Insert the article data into the table
-                    insert_article_data(cursor, mar_news_table_name, news_title, news_text, summary, classification, location, news_link)
+                    insert_article_data(cursor, mar_news_table_name, news_title, news_text, summary, classification, ml_class, location, news_link)
                     print(news_title)
                     conn.commit()
 
