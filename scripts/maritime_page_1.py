@@ -11,6 +11,8 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from src import Helper
+from ml_classification import ml_classification
+
 
 # Load the variables from .env into the environment
 load_dotenv()
@@ -19,7 +21,7 @@ load_dotenv()
 URL = "https://www.maritimelogisticsprofessional.com"
 
 # Path to the SQLite database
-db_path = "../data/news/maritime_news.db"
+db_path = '../data/news/maritime_air_news.db'
 # Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
