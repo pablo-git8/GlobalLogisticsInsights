@@ -11,6 +11,10 @@
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![terminal](https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&logo=windows%20terminal&logoColor=white)
 
+<p align="center">
+	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="200" width="300"/>
+</p>
+
 ## Overview
 
 This Streamlit application is an AI-powered reporting tool designed to transform the responsiveness and strategic decision-making capabilities of supply chain managers. By using NLP and AI integration, it provides predictive insights into maritime/air logistics and supply chain disruptions through real-time global news aggregation.
@@ -101,6 +105,13 @@ To run the application on your local machine:
    ```sh
    cd GlobalLogisticsInsights
    make all
+   pip install -r requirements.txt
+   ```
+
+3. Start the Streamlit server:
+   ```sh
+   python -m streamlit run news_app/app.py
+
    ```
 
 ## Contribution
