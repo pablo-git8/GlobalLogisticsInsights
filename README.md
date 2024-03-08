@@ -1,5 +1,3 @@
-# AI-Powered Supply Chain News Aggregator and Analyzer
-
 <p align="center">
 	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="200" width="300"/>
 </p>
@@ -14,6 +12,8 @@
 ![SQLite](https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white)
 ![CSS](https://img.shields.io/badge/CSS-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![terminal](https://img.shields.io/badge/windows%20terminal-4D4D4D?style=for-the-badge&logo=windows%20terminal&logoColor=white)
+
+# AI-Powered Supply Chain News Aggregator and Analyzer
 
 ## Overview
 
