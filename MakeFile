@@ -1,4 +1,4 @@
-.PHONY: all install venv format lint security run-scripts clean
+.PHONY: all install venv format lint security run-scripts clean streamlit
 
 VENV := venv
 
@@ -44,7 +44,7 @@ clean:
 	rm -rf $(VENV)
 	find . -type f -name '*.pyc' -delete
 
-steamlit: 
+streamlit: 
 	python -m streamlit run news_app/app.py
 
-all: install format lint security run-scripts clean
+all: install format lint security run-scripts clean streamlit
