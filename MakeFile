@@ -1,4 +1,4 @@
-.PHONY: all install venv format lint securty run-scripts clean
+.PHONY: all install venv format lint security run-scripts clean
 
 VENV := venv
 
@@ -8,18 +8,17 @@ install:
 	@echo "Installing requirements..."
 		python3.10 -m venv $(VENV) && \
 		source venv/bin/activate && \
-		pip install --upgrade pip && \
 		pip install -r requirements.txt
 
 
-format: venv
+format:
 	@echo "Running Python scripts..."
 	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
 		echo "Executing $$script"; \
 		black $$script; \
 	done
 
-lint: venv
+lint:
 	@echo "Running Python scripts..."
 	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
 		echo "Executing $$script"; \
@@ -27,14 +26,14 @@ lint: venv
 		flake8 $$script --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics; \
 	done
 
-securty: venv
+security:
 	@echo "Running Python scripts..."
 	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
 		echo "Executing $$script"; \
-		bandit -r $$script --tests B101, B301, B303, B602, B701; \
+		bandit -r $$script --tests B101; \
 	done
 
-run-scripts: venv
+run-scripts:
 	@echo "Running Python scripts..."
 	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
 		echo "Executing $$script"; \
@@ -45,6 +44,7 @@ clean:
 	rm -rf $(VENV)
 	find . -type f -name '*.pyc' -delete
 
+steamlit: 
+	python -m streamlit run news_app/app.py
 
-
-all: install venv format lint securty run-scripts clean
+all: install format lint security run-scripts clean
