@@ -7,3 +7,4 @@ __pycache__
 
 models/bert_risk/**
 !models/bert_risk/manideepvmuela-sch-structure.png
+venv

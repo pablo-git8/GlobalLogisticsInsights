@@ -88,7 +88,7 @@ def main():
             snippets = wait.until(
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".snippet"))
             )
-            
+
             snippet_url = [snippet.get_attribute("href") for snippet in snippets]
 
             # Process each snippet
@@ -97,36 +97,40 @@ def main():
                 try:
                     time.sleep(5)
                     browser.get(news_link)
-    
+
                     # Find the title element and get the text
                     title_element = wait.until(
-                        EC.presence_of_element_located((By.CSS_SELECTOR, "h1[itemprop='name']"))
+                        EC.presence_of_element_located(
+                            (By.CSS_SELECTOR, "h1[itemprop='name']")
+                        )
                     )
                     news_title = title_element.text
                     print(news_title)
-        
+
                     # Find the article body element and get all the paragraph texts
                     article_body_element = wait.until(
                         EC.presence_of_element_located(
                             (By.CSS_SELECTOR, "div[property='articleBody']")
                         )
                     )
-                    article_paragraphs = article_body_element.find_elements(By.TAG_NAME, "p")
-        
+                    article_paragraphs = article_body_element.find_elements(
+                        By.TAG_NAME, "p"
+                    )
+
                     # Combine the text of all paragraphs to form the body text
-                    news_text = " ".join(paragraph.text for paragraph in article_paragraphs)
+                    news_text = " ".join(
+                        paragraph.text for paragraph in article_paragraphs
+                    )
                     article_date = browser.find_element(
                         By.CSS_SELECTOR, "span[class='date']"
                     ).text
-                    date_object = datetime.strptime(article_date, '%B %d, %Y')
-            
-            
-            
-# =============================================================================
-#                     news_link = snippet.get_attribute("href")
-#                     news_title = snippet.find_element(By.TAG_NAME, "h2").text
-#                     news_text = snippet.find_element(By.TAG_NAME, "p").text
-# =============================================================================
+                    date_object = datetime.strptime(article_date, "%B %d, %Y")
+
+                    # =============================================================================
+                    #                     news_link = snippet.get_attribute("href")
+                    #                     news_title = snippet.find_element(By.TAG_NAME, "h2").text
+                    #                     news_text = snippet.find_element(By.TAG_NAME, "p").text
+                    # =============================================================================
 
                     # AI-powered Summary
                     if premium:
@@ -149,7 +153,7 @@ def main():
                         ml_classification,
                         location,
                         news_link,
-                        date_object
+                        date_object,
                     )
                     print(news_title)
                     conn.commit()

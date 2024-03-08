@@ -107,7 +107,7 @@ def main():
                 ml_classification,
                 location,
                 items_url,
-                date_obj
+                date_obj,
             )
             conn.commit()
     conn.close()

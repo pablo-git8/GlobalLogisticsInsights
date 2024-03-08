@@ -70,7 +70,7 @@ class Helper:
         ml_classification,
         location,
         link,
-        date
+        date,
     ):
         """ """
         # Check if an article with the same title already exists
@@ -91,7 +91,7 @@ class Helper:
                     ml_classification,
                     location,
                     link,
-                    date
+                    date,
                 ),
             )
 

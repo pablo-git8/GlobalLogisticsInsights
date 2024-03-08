@@ -1,28 +1,50 @@
-.PHONY: \
-	run-scripts \
-	securty \
-	lint \
-	format \
+.PHONY: all install venv format lint securty run-scripts clean
 
-.DEFAULT_GOAL:=help
-
-SHELL=bash
+VENV := venv
 
 SCRIPTS_DIR := scripts
 
-format:
-	black $(SCRIPTS_DIR)/*.py
+install: 
+	@echo "Installing requirements..."
+		python3.10 -m venv $(VENV) && \
+		source venv/bin/activate && \
+		pip install --upgrade pip && \
+		pip install -r requirements.txt
 
-lint:
-	flake8 $(SCRIPTS_DIR)/*.py --count --select=E9,F63,F7,F82 --show-source --statistics
-	flake8 $(SCRIPTS_DIR)/*.py --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics
 
-securty:
-	bandit -r $(SCRIPTS_DIR)/*.py --tests B101, B301, B303, B602, B701
+format: venv
+	@echo "Running Python scripts..."
+	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
+		echo "Executing $$script"; \
+		black $$script; \
+	done
 
-run-scripts:
+lint: venv
+	@echo "Running Python scripts..."
+	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
+		echo "Executing $$script"; \
+		flake8 $$script --count --select=E9,F63,F7,F82 --show-source --statistics; \
+		flake8 $$script --count --exit-zero --max-complexity=10 --max-line-length=100 --statistics; \
+	done
+
+securty: venv
+	@echo "Running Python scripts..."
+	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
+		echo "Executing $$script"; \
+		bandit -r $$script --tests B101, B301, B303, B602, B701; \
+	done
+
+run-scripts: venv
 	@echo "Running Python scripts..."
 	@for script in $(wildcard $(SCRIPTS_DIR)/*.py); do \
 		echo "Executing $$script"; \
 		python $$script; \
 	done
+
+clean:
+	rm -rf $(VENV)
+	find . -type f -name '*.pyc' -delete
+
+
+
+all: install venv format lint securty run-scripts clean

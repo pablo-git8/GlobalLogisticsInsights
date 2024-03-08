@@ -12,4 +12,7 @@ selenium==4.16.0
 openai==1.13.3
 webdriver-manager==4.0.1
 python-dotenv==1.0.1
-libsqlite==3.44.2
+bandit
+pytest
+flake8
+black
