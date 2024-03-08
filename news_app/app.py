@@ -2,7 +2,6 @@
 # python -m streamlit run app.py
 
 import sqlite3
-import base64
 import random
 import streamlit as st
 
@@ -29,7 +28,6 @@ with st.container():
     col1, col2, col3 = st.columns([2, 4, 2])
     # Display an image with a specified width, maintaining aspect ratio
     with col2:
-        #st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/mar_air_transport.png', width=300)
         st.image('https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png', width=320)
 
 # Initialize session state variable if it doesn't exist
@@ -44,7 +42,8 @@ def hide_text():
 db_path = '../data/news/maritime_air_news.db'
 
 # Define table naming by date of execution
-current_date = datetime.now().strftime("%m%d%Y")
+#current_date = datetime.now().strftime("%m%d%Y")
+current_date = '03082024' # For testing purposes - cron jobs needed for running each script
 
 # Function to get news from the database based on the selected category
 def get_news_data(option, classification, num_news):
