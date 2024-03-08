@@ -21,7 +21,7 @@ st.markdown(f'<style>{css_to_include}</style>', unsafe_allow_html=True)
 ######## APP INITIALIZATION ########
 
 # App title
-st.title('Maritime & Air News Gatherer')
+st.title('Maritime & Air News Analyzer')
 
 # App Image
 with st.container():

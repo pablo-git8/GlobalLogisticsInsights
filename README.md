@@ -15,6 +15,10 @@
 
 This Streamlit application is an AI-powered reporting tool designed to transform the responsiveness and strategic decision-making capabilities of supply chain managers. By using NLP and AI integration, it provides predictive insights into maritime/air logistics and supply chain disruptions through real-time global news aggregation.
 
+<p align="center">
+	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="400" width="600"/>
+</p>
+
 ## Features
 
 ### Real-Time News Aggregation
@@ -104,7 +108,7 @@ To run the application on your local machine:
 
 3. Start the Streamlit server:
    ```sh
-   python -m streamlit run app.py
+   python -m streamlit run news_app/app.py
    ```
 
 ## Contribution
