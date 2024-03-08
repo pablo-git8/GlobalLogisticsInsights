@@ -1,3 +1,4 @@
+import time
 import json
 from datetime import datetime
 from dotenv import load_dotenv
@@ -17,7 +18,7 @@ load_dotenv()
 URL = "https://www.maritimelogisticsprofessional.com"
 
 # Path to the SQLite database
-db_path = "../data/news/maritime_news.db"
+db_path = "data/news/maritime_air_news.db"
 # Table naming by date of execution and type of news
 current_date = datetime.now().strftime("%m%d%Y")
 mar_news_table_name = f"mar_news_{current_date}"
@@ -25,7 +26,7 @@ mar_news_table_name = f"mar_news_{current_date}"
 helper_obj = Helper(db_path, mar_news_table_name)
 
 # Load keywords from JSON file for classification
-with open("../json/keywords.json", "r") as file:
+with open("json/keywords.json", "r") as file:
     keywords = json.load(file)
 
 
@@ -88,13 +89,49 @@ def main():
                 EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".snippet"))
             )
 
+            snippet_url = [snippet.get_attribute("href") for snippet in snippets]
+
             # Process each snippet
-            for snippet in snippets:
-                # snippet = snippets[0]
+            for news_link in snippet_url:
+                # news_link = snippet_url[0]
                 try:
-                    news_link = snippet.get_attribute("href")
-                    news_title = snippet.find_element(By.TAG_NAME, "h2").text
-                    news_text = snippet.find_element(By.TAG_NAME, "p").text
+                    time.sleep(5)
+                    browser.get(news_link)
+
+                    # Find the title element and get the text
+                    title_element = wait.until(
+                        EC.presence_of_element_located(
+                            (By.CSS_SELECTOR, "h1[itemprop='name']")
+                        )
+                    )
+                    news_title = title_element.text
+                    print(news_title)
+
+                    # Find the article body element and get all the paragraph texts
+                    article_body_element = wait.until(
+                        EC.presence_of_element_located(
+                            (By.CSS_SELECTOR, "div[property='articleBody']")
+                        )
+                    )
+                    article_paragraphs = article_body_element.find_elements(
+                        By.TAG_NAME, "p"
+                    )
+
+                    # Combine the text of all paragraphs to form the body text
+                    news_text = " ".join(
+                        paragraph.text for paragraph in article_paragraphs
+                    )
+                    article_date = browser.find_element(
+                        By.CSS_SELECTOR, "span[class='date']"
+                    ).text
+                    date_object = datetime.strptime(article_date, "%B %d, %Y")
+
+                    # =============================================================================
+                    #                     news_link = snippet.get_attribute("href")
+                    #                     news_title = snippet.find_element(By.TAG_NAME, "h2").text
+                    #                     news_text = snippet.find_element(By.TAG_NAME, "p").text
+                    # =============================================================================
+
                     # AI-powered Summary
                     if premium:
                         helper_obj.summarize_text(news_text)
@@ -116,6 +153,7 @@ def main():
                         ml_classification,
                         location,
                         news_link,
+                        date_object,
                     )
                     print(news_title)
                     conn.commit()

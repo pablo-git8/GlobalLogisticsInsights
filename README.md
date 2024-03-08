@@ -101,14 +101,17 @@ To run the application on your local machine:
    git clone https://github.com/pablo-git8/GlobalLogisticsInsights.git
    ```
 
-2. Navigate to the cloned directory and install the dependencies:
+2. Navigate to the cloned directory and make file to install the dependencies and run the scripts:
    ```sh
+   cd GlobalLogisticsInsights
+   make all
    pip install -r requirements.txt
    ```
 
 3. Start the Streamlit server:
    ```sh
    python -m streamlit run news_app/app.py
+
    ```
 
 ## Contribution
