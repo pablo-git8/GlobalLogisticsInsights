@@ -1,5 +1,9 @@
 # AI-Powered Supply Chain News Aggregator and Analyzer
 
+<p align="center">
+	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="200" width="300"/>
+</p>
+
 ![python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
 ![git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
@@ -14,10 +18,6 @@
 ## Overview
 
 This Streamlit application is an AI-powered reporting tool designed to transform the responsiveness and strategic decision-making capabilities of supply chain managers. By using NLP and AI integration, it provides predictive insights into maritime/air logistics and supply chain disruptions through real-time global news aggregation.
-
-<p align="center">
-	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="200" width="300"/>
-</p>
 
 ## Features
 
