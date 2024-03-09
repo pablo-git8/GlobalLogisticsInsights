@@ -6,6 +6,8 @@ The information provided by this application is intended for general guidance an
 
 The developers of this application do not accept responsibility for any consequences, direct or indirect, that may arise from the use of the application, including but not limited to financial loss, business interruption, or misinterpretation of information. The application utilizes web scraping techniques with Selenium for data aggregation, and while this is conducted within the bounds of legal and ethical standards, the sources and reliability of scraped data cannot be fully guaranteed.
 
+The developers of this application are not affiliated with any political party, geopolitical entity, religious group, racial demographic, gender identity, sexual orientation, or any particular set of beliefs or opinions. The information presented within the app is designed to be impartial and objective, striving to serve all users equitably without bias.
+
 Additionally, users should be aware that this application performs text categorization tasks that, despite our best efforts, may not always achieve high levels of precision and accuracy. As a result, the application may present content that is wrongly classified. We emphasize that these inaccuracies are part of the current limitations of the application, which is still under development and requires further fine-tuning.
 
 We do not hold responsibility for any consequences arising from the use of the application, including decisions made based on incorrectly classified information. Users are encouraged to exercise critical judgment and not solely rely on the application's outputs for making significant decisions.
