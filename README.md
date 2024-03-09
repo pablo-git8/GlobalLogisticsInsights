@@ -17,7 +17,9 @@
 
 Watch the app deployed in action!
 
-![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white) https://globallogisticsinsights.streamlit.app/
+![Streamlit](https://img.shields.io/badge/Streamlit-00B3E6?style=plastic&logo=Streamlit&logoColor=white)
+
+https://globallogisticsinsights.streamlit.app/
 
 ## Overview
 
