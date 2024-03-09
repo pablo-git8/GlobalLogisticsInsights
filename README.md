@@ -105,7 +105,6 @@ To run the application on your local machine:
    ```sh
    cd GlobalLogisticsInsights
    make all
-   pip install -r requirements.txt
    ```
 
 3. Start the Streamlit server:
