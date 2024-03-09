@@ -354,6 +354,11 @@ with st.container():
         st.write(f"")
         st.write(f"{summary_example}")
 
+st.markdown(
+            f'<p class="subheader-font"><a href="https://github.com/pablo-git8/GlobalLogisticsInsights/blob/main/documentation/disclaimer.md" target="_blank">App Disclaimer</a></p>',
+            unsafe_allow_html=True,
+        )
+
 # Add a copyright notice at the bottom of the page
 st.markdown(
     """
