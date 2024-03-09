@@ -44,8 +44,8 @@ def hide_text():
 db_path = "data/news/maritime_air_news.db"
 
 # Define table naming by date of execution
-current_date = datetime.now().strftime("%m%d%Y")
-#current_date = '03082024' # For testing purposes - cron jobs needed to keep the app updated
+#current_date = datetime.now().strftime("%m%d%Y")
+current_date = '03082024' # For testing purposes - cron jobs needed to keep the app updated
 
 
 # Function to get news from the database based on the selected category
