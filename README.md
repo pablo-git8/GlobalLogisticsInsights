@@ -104,12 +104,11 @@ To run the application on your local machine:
 2. Navigate to the cloned directory and make file to install the dependencies and run the scripts:
    ```sh
    cd GlobalLogisticsInsights
-   make all
    ```
 
-3. Start the Streamlit server:
+3. Install requirements, run the script to populate the database and start the Streamlit server by running:
    ```sh
-   python -m streamlit run news_app/app.py
+   make all
 
    ```
 
