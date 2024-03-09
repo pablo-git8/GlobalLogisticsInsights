@@ -15,8 +15,9 @@
 	<img src="https://raw.githubusercontent.com/pablo-git8/GlobalLogisticsInsights/main/images/14c0ecef-68ef-4ce8-8bfe-bd63176ea5ef.png" alt="200" width="300"/>
 </p>
 
+Watch the app deployed in action!
 
-![Streamlit](https://img.shields.io/badge/Streamlit-00B3E6?style=plastic&logo=Streamlit&logoColor=white)  Watch the app deployed in action!
+![Streamlit](https://img.shields.io/badge/Streamlit-00B3E6?style=plastic&logo=Streamlit&logoColor=white)
 
 https://globallogisticsinsights.streamlit.app/
 
