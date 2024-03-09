@@ -120,7 +120,7 @@ To run the application on your local machine:
 
 ## Contribution
 
-We welcome contributions from the community.
+This app was developed by [Pablo](https://github.com/pablo-git8) and [John](https://github.com/JohnOMDev). We welcome contributions from the community!
 
 ## License
 
